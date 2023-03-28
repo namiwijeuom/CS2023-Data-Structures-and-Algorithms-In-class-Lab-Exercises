@@ -1,0 +1,56 @@
+#include <iostream>
+#include <chrono>
+#include <random>
+using namespace std;
+
+void swap(int* a, int* b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
+int partition(int array1[], int low, int high) {
+    int pivot = array1[high]; //Pivot element
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; j++) {
+        if (array1[j] <= pivot) {
+            i++;
+            swap(&array1[i], &array1[j]);
+        }
+    }
+    swap(&array1[i + 1], &array1[high]);
+    return (i + 1);
+}
+
+void quicksort(int array1[], int low, int high) {
+    if (low < high) {
+        int pi = partition(array1, low, high);
+        quicksort(array1, low, pi - 1);
+        quicksort(array1, pi + 1, high);
+    }
+}
+
+int main() {
+    const int array_size = 100000; //Change the number of elements in the array
+    int arr[array_size];
+
+    // Generate a random array
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(1, 1000);
+
+    for (int i = 0; i < array_size; i++) {
+        arr[i] = dis(gen);
+    }
+
+    // Sorted array and measure the execution time
+    auto start_time = chrono::high_resolution_clock::now();
+    quicksort(arr, 0, array_size - 1);
+    auto end_time = chrono::high_resolution_clock::now();
+
+    auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
+    cout << "Execution time: " << duration << " ms" << endl;
+
+    return 0;
+}
