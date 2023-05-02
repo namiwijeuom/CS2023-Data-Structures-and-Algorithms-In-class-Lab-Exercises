@@ -5,7 +5,7 @@ using namespace std;
 void heapify(int arr[], int n, int root)
 {
    // build heapify
-   int max = root;  //Initializing largest value as the root
+   int max = root;  //Setting the largest value as the root
    
    int l_node = 2*root + 1;  //Left child node
    int r_node = 2*root + 2;  //Right child node
